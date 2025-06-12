@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import PlaquePreview from "./components/PlaquePreview";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [storeName, setStoreName] = useState("台中老店");
+  const [plaqueText, setPlaqueText] = useState("生意興隆");
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+    <div className="app-container">
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <h1>🎉 贈送匾額儀式</h1>
+
+        <label>店家名稱</label>
+        <input
+          value={storeName}
+          onChange={(e) => setStoreName(e.target.value)}
+          placeholder="輸入店家名稱"
+        />
+
+        <label>匾額文字</label>
+        <input
+          value={plaqueText}
+          onChange={(e) => setPlaqueText(e.target.value)}
+          placeholder="輸入匾額文字"
+        />
+
+        <div className="preview-wrapper">
+          <PlaquePreview storeName={storeName} plaqueText={plaqueText} />
+        </div>
+
+        <button onClick={() => alert("🎁 匾額贈送成功！")}>🎀 贈送匾額</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
