@@ -1,89 +1,82 @@
-/* 全頁通用設定：高度滿版＋無捲動條 */
+/* 全域基礎設定 */
 html, body, #root {
-  height: 100%;
-  width: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background-color: #111;
   color: #fff;
-  overflow: hidden; /* ❗ 禁止全頁 scroll bar */
+  height: 100%;
+  box-sizing: border-box;
 }
 
-/* 外層容器：垂直＋水平完全置中 */
+/* 外層容器 */
 .app-container {
+  min-height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh; /* 用 vh 讓畫面撐滿視窗 */
-  padding: 2rem;
-  box-sizing: border-box;
-  background-color: #111;
+  align-items: flex-start;
+  padding: 2rem 1rem;
 }
 
-/* 卡片：居中顯示主要畫面內容 */
-.card {
+/* 內層內容最大寬度 */
+.content-box {
   width: 100%;
-  max-width: 420px;
-  background-color: #222;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  padding: 2rem;
-  box-sizing: border-box;
+  max-width: 480px;
   text-align: center;
-  margin: auto;
 }
 
 /* 標題 */
-h1 {
+.title {
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-/* 表單樣式 */
-label {
-  display: block;
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
-  text-align: left;
+/* 表單欄位 */
+.form-group {
+  margin-bottom: 1rem;
 }
 
-input {
+.text-input {
   width: 100%;
   padding: 0.6rem;
-  border-radius: 8px;
-  border: 1px solid #444;
-  margin-bottom: 1.25rem;
-  background-color: #333;
-  color: white;
   font-size: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
 }
 
-/* 畫布區塊容器 */
-.preview-wrapper {
-  background-color: black;
-  border: 1px solid white;
-  border-radius: 12px;
-  padding: 1rem;
+/* 匾額底圖按鈕區 */
+.plaque-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);    /* ✅ 桌機固定四欄 */
+  gap: 8px;
   margin-bottom: 1.5rem;
+  justify-items: center;
+  max-width: 360px;                         /* ✅ 強制讓圖示分行 */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* 按鈕樣式 */
-button {
+/* 匾額底圖樣式 */
+.plaque-thumb {
   width: 100%;
-  background-color: #e94e77;
-  color: white;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
+  height: 40px;
+  object-fit: cover;
+  border: 1px solid #888;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s;
 }
 
-button:hover {
-  background-color: #ff77a9;
+.plaque-thumb.active {
+  border: 3px solid #ff66cc;
+}
+
+/* 手機模式改成兩欄 */
+@media (max-width: 500px) {
+  .plaque-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

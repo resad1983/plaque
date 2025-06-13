@@ -1,63 +1,91 @@
 import { useEffect, useRef } from "react";
-import plaque1 from "../assets/plaques/plaque1.png"; // 匾額圖：320x160 PNG
 
-export default function PlaquePreview({ storeName = "店名", plaqueText = "生意興隆" }) {
+export default function PlaquePreview({
+  storeName = "店名",
+  plaqueText = "生意興隆",
+  imageSrc = "",
+}) {
   const canvasRef = useRef(null);
 
+  // 畫圖與文字
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !imageSrc) return;
 
     const ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
 
     const image = new Image();
-    image.src = plaque1;
+    image.src = imageSrc;
 
     image.onload = () => {
-      // 清空畫布
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 畫布 & 圖片尺寸
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
       const imageWidth = image.width;
       const imageHeight = image.height;
 
-      // 將匾額圖片置中（Y 軸也置中）
+      // 圖片置中位置
       const imgX = (canvasWidth - imageWidth) / 2;
       const imgY = (canvasHeight - imageHeight) / 2;
 
       // 畫匾額底圖
       ctx.drawImage(image, imgX, imgY, imageWidth, imageHeight);
 
-      // 畫上方店名
+      // 店家名稱
       ctx.font = "bold 20px sans-serif";
       ctx.fillStyle = "#ff66cc";
       ctx.textAlign = "center";
-      ctx.fillText(storeName, canvasWidth / 2, 40); // 固定在畫布上方
+      ctx.fillText(storeName, canvasWidth / 2, 40);
 
-      // 畫中間匾額文字（圖中央偏下一點）
+      // 中間文字（稍微靠中）
       ctx.font = "bold 18px sans-serif";
       ctx.fillStyle = "#ffffff";
       ctx.fillText(plaqueText, canvasWidth / 2, imgY + imageHeight / 2 + 6);
     };
-  }, [storeName, plaqueText]);
+  }, [storeName, plaqueText, imageSrc]);
+
+  // 下載為 JPG
+  const downloadImage = () => {
+    const canvas = canvasRef.current;
+    const link = document.createElement("a");
+    link.download = `${storeName}_匾額.jpg`;
+    link.href = canvas.toDataURL("image/jpeg", 0.95);
+    link.click();
+  };
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={320}
-      height={240}
-      style={{
-        maxWidth: "100%",
-        height: "auto",
-        borderRadius: "12px",
-        border: "2px solid #ccc",
-        backgroundColor: "#000",
-        display: "block",
-        margin: "0 auto",
-      }}
-    />
+    <div>
+      <canvas
+        ref={canvasRef}
+        width={320}
+        height={240}
+        style={{
+          maxWidth: "100%",
+          height: "auto",
+          borderRadius: "12px",
+          border: "2px solid #ccc",
+          backgroundColor: "#000",
+          display: "block",
+          margin: "0 auto 1rem",
+        }}
+      />
+      <button
+        onClick={downloadImage}
+        style={{
+          width: "100%",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          padding: "0.6rem",
+          border: "none",
+          borderRadius: "8px",
+          fontSize: "1rem",
+          cursor: "pointer",
+        }}
+      >
+        📥 下載匾額（JPG）
+      </button>
+    </div>
   );
 }
